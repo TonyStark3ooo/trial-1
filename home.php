@@ -1,3 +1,26 @@
+<?php
+// db format :::  colls -->(`ID`, `Email`, `Is Verified`, `Time Created`) values -->(NULL, '$', '0', current_timestamp());
+    if($_SERVER["REQUEST_METHOD"]=="POST"){
+        include 'partials/_dbConnect.php';
+        $mail = $_POST["mail_id"];
+        $query = "SELECT * from udb where Email='$mail'";
+        $check = mysqli_query($isConnect,$query);
+
+        $alert = '';
+        if(mysqli_num_rows($check)==0){
+            $query = "INSERT INTO `udb` (`ID`, `Email`, `Is Verified`, `Time Created`) VALUES (NULL, '$mail', '0', current_timestamp())";
+            mysqli_query($isConnect,$query);
+            $alert = 'Thank you, Enjoy your subscription';
+        }
+        else{
+            $row = mysqli_fetch_assoc($check);
+            // $mailStatus = $row['Is Verified'];
+            $alert = 'You alredy have subscribed';
+        }
+    }
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +38,7 @@
         <div class="back-img"></div>
     </header>
     <section>
-        <form action="thankYou.html" method="post">
+        <form  method="post">
             <p class="heading-2">subsrciption</p>
             <input type="email" name="mail_id" id="mailBox" placeholder="Email here">
             <input type="submit" value="Subscribe!!" class="btn">
@@ -34,5 +57,10 @@
             This page is created under assignment of RT Camp. This page does not generate any kind of income.
         </p>
     </footer>
+    <?php
+        if($alert != ""){
+            echo"<script ype='text/javascript'> alert('$alert')</script>";
+        }
+    ?>
 </body>
 </html>
