@@ -1,0 +1,124 @@
+@import url(//db.onlinewebfonts.com/c/d0cb04e3ee499a746d538ca81a60eca0?family=sammyfont);
+*{
+    font-family: "sammyfont";
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    height: 97vh;
+    background-color: rgb(250, 250, 250);
+}
+header{
+    margin-top: 20px;
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: rgb(33, 33, 33);
+    display: flex;
+    justify-content: center;
+}
+section{
+    margin: 10px 0 0 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 90%;
+}
+.heading-2{
+    font-size: 32px;
+    font-weight: 500;
+}
+section form{
+    width: 30%;
+}
+
+section input{
+    padding: 12px;
+    font-size: 22px;
+    font-weight: 500;
+    border: none;
+    border-radius: 15px;
+    opacity: 0.7;
+    animation-name: leaveFocus;
+    animation-duration: 0.4s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+#mailBox{
+    box-shadow: inset 4px 4px 4px rgba(33, 33, 33,0.33);
+    width: 275px;
+}
+
+#mailBox:focus-visible {
+    outline: rgba(33, 33, 33,0.66) auto 1px;
+    outline-width: 1px;
+}
+
+.btn{
+    box-shadow: 4px 4px 4px 0 rgba(33, 33, 33,0.33);
+}
+
+section input:hover{
+    animation-name: hoverFocus;
+    animation-duration: 0.4s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes hoverFocus {
+    from{
+        opacity: 0.7;
+    }
+    to{
+        opacity: 1;
+    }
+} 
+
+@keyframes leaveFocus {
+    from{
+        opacity: 1;
+    }
+    to{
+        opacity: 0.7;
+    }
+} 
+
+.right-img{
+    width: 68%;
+    background: url(./Assets/Images/circuit_diagram.png);
+    opacity: 0.9;
+    background-repeat: no-repeat;
+    background-position:center;
+    background-size: contain;
+}
+.right-img p{
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    background: rgba(255,255,255,0.7);
+    width: fit-content;
+    margin: 5px auto;
+    padding: 5px;
+    border: 3px solid rgba(33, 33, 33,0.33);
+    border-radius: 25px;
+}
+.swipper{
+    display: flex;
+    height: 80%;
+    align-items: center;
+}
+.swipper p{
+    cursor: pointer;
+}
+footer{
+    display: flex;
+    align-items: center;
+}
+.caution{
+    width: 25px;
+    height: 25px;
+    background: url(./Assets/Logos/exclamation-triangle-solid.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+}
