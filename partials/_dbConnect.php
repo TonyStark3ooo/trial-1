@@ -4,9 +4,9 @@
     $password = "";
     $database = "UDB";
 
-    $isConnect = mysqli_connect($server, $username, $password, $database);
+    $connect = mysqli_connect($server, $username, $password, $database);
     $status = 4;
-    if($isConnect){
+    if($connect){
         $status = 2;
         // echo "Connected";
     }

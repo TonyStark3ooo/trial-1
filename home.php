@@ -1,23 +1,39 @@
 <?php
-// db format :::  colls -->(`ID`, `Email`, `Is Verified`, `Time Created`) values -->(NULL, '$', '0', current_timestamp());
-    if($_SERVER["REQUEST_METHOD"]=="POST"){
-        include 'partials/_dbConnect.php';
-        $mail = $_POST["mail_id"];
-        $query = "SELECT * from udb where Email='$mail'";
-        $check = mysqli_query($isConnect,$query);
 
+
+if($_SERVER["REQUEST_METHOD"]=="POST"){
+        include 'partials/_dbConnect.php';
+        include 'partials/_helpers.php';
+
+        
         $alert = '';
-        if(mysqli_num_rows($check)==0){
-            $query = "INSERT INTO `udb` (`ID`, `Email`, `Is Verified`, `Time Created`) VALUES (NULL, '$mail', '0', current_timestamp())";
-            mysqli_query($isConnect,$query);
-            $alert = 'Thank you, Enjoy your subscription';
+        $mail = $_POST["mail_id"];
+
+        list($noMatchFound,$resuls) = searchMail($mail);
+        if($noMatchFound){
+            list($isMailValid, $noChangeInMail) = mailSanitizer($mail);
+            if($isMailValid){
+                if($noChangeInMail){
+                    insertIntoDB($mail);
+                    $alert = 'Thank you\nEnjoy your subscription';
+                }
+                else{
+                    $alert = 'Your Email is valid but not sanitized please enter it as\n'.$isMailValid;
+                }
+            }else{
+                $alert = "We are failed to validate your Email address\n kindly check it and try again";
+            }
         }
         else{
-            $row = mysqli_fetch_assoc($check);
+            $row = mysqli_fetch_assoc($resuls);
             // $mailStatus = $row['Is Verified'];
             $alert = 'You alredy have subscribed';
         }
     }
+
+    showAlert($alert);
+
+
 ?>
 
 
@@ -57,10 +73,5 @@
             This page is created under assignment of RT Camp. This page does not generate any kind of income.
         </p>
     </footer>
-    <?php
-        if($alert != ""){
-            echo"<script ype='text/javascript'> alert('$alert')</script>";
-        }
-    ?>
 </body>
 </html>
