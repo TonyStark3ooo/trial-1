@@ -31,14 +31,19 @@
         }
     }
 
+    function dbOperation($query){
+        global $connect;
+        mysqli_query($connect,$query);
+    }
+
     function insertIntoDB($mail){
 
         // cols.: (`ID`, `Email`, `Is Verified`, `Time Created`, `verification hash`, `time verified`, `unsubscribe hash`, `time unsubscribe`)
         // VALUES .: (NULL, 'mail', '0', current_timestamp(), 'paasword_hash(email,BCRYPT)', current_timestamp(), 'password_hash(rev_email,BCRYPT)', current_timestamp());
 
         global $connect;
-        $ver_hash = password_hash($mail,PASSWORD_BCRYPT);
-        $unsub_hash = password_hash(strrev($mail),PASSWORD_BCRYPT);
+        $ver_hash = password_hash($mail."rtCamp",PASSWORD_BCRYPT);
+        $unsub_hash = password_hash(strrev($mail."rtCamp"),PASSWORD_BCRYPT);
         $query = "INSERT INTO `udb` (`ID`, `Email`, `Is Verified`, `Time Created`, `verification hash`, `time verified`, `unsubscribe hash`, `time unsubscribe`) VALUES (NULL, '$mail', '0', current_timestamp(), '$ver_hash', current_timestamp(), '$unsub_hash', NULL);";
         mysqli_query($connect,$query);
     }
@@ -53,7 +58,7 @@
         return $var == 0;
     }
 
-    function sendMails($emails,$body,$img,$comicName){
+    function sendMails($email,$body,$img,$comicName){
         global $SendGrid_API;
         $name = "JanakPatel";
         $subject = "random XKCD comic";
@@ -65,8 +70,12 @@
         $data = array(
             "personalizations" => array(
                 array(
-                    "to" =>array(array("email" => "test@test.com")), //array of emails
-                    "cc" =>$emails       
+                    "to" =>array(
+                        array(
+                            "email" => $email
+                            )
+                        )
+                         
                 )
             ),
             "from" => array(

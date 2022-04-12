@@ -33,7 +33,7 @@ section form{
     width: 30%;
 }
 
-section input{
+input{
     padding: 12px;
     font-size: 22px;
     font-weight: 500;
@@ -59,7 +59,7 @@ section input{
     box-shadow: 4px 4px 4px 0 rgba(33, 33, 33,0.33);
 }
 
-section input:hover{
+input:hover{
     animation-name: hoverFocus;
     animation-duration: 0.4s;
     animation-timing-function: ease-out;
@@ -121,4 +121,11 @@ footer{
     background: url(./Assets/Logos/exclamation-triangle-solid.svg);
     background-repeat: no-repeat;
     background-position: center;
+}
+
+.inline-img{
+    display: inline;
+    height: 40px;
+    width: 88px;
+    
 }
