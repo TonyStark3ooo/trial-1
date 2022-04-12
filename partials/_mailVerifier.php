@@ -7,7 +7,7 @@
         <!DOCTYPE html>
         <html lang="en">
         <body>
-        <div style="background: url(../Assets/Images/3806193.jpg); background-repeat:no-repeat; background-position:center;background-size:cover;display:flex;flex-direction:column;align-items:center;padding:30px;width:max-content">
+        <div style="background: url(../Assets/Images/3806193.jpg); background-repeat:no-repeat; background-position:center;background-size:cover;padding:30px;width:max-content">
         <style>
             @import url(//db.onlinewebfonts.com/c/d0cb04e3ee499a746d538ca81a60eca0?family=sammyfont);
             *{
