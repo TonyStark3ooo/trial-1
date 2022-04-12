@@ -29,9 +29,9 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
             // $mailStatus = $row['Is Verified'];
             $alert = 'You alredy have subscribed';
         }
+        showAlert($alert);
     }
 
-    showAlert($alert);
 
 
 ?>

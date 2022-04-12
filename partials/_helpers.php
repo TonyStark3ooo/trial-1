@@ -33,11 +33,14 @@
 
     function insertIntoDB($mail){
 
-        // db format :::  colls -->(`ID`, `Email`, `Is Verified`, `Time Created`) values -->(NULL, '$', '0', current_timestamp());
+        // cols.: (`ID`, `Email`, `Is Verified`, `Time Created`, `verification hash`, `time verified`, `unsubscribe hash`, `time unsubscribe`)
+        // VALUES .: (NULL, 'mail', '0', current_timestamp(), 'paasword_hash(email,BCRYPT)', current_timestamp(), 'password_hash(rev_email,BCRYPT)', current_timestamp());
 
         global $connect;
-        $query = "INSERT INTO `udb` (`ID`, `Email`, `Is Verified`, `Time Created`) VALUES (NULL, '$mail', '0', current_timestamp())";
-            mysqli_query($connect,$query);
+        $ver_hash = password_hash($mail,PASSWORD_BCRYPT);
+        $unsub_hash = password_hash(strrev($mail),PASSWORD_BCRYPT);
+        $query = "INSERT INTO `udb` (`ID`, `Email`, `Is Verified`, `Time Created`, `verification hash`, `time verified`, `unsubscribe hash`, `time unsubscribe`) VALUES (NULL, '$mail', '0', current_timestamp(), '$ver_hash', current_timestamp(), '$unsub_hash', NULL);";
+        mysqli_query($connect,$query);
     }
 
     function showAlert($alert){
@@ -50,7 +53,7 @@
         return $var == 0;
     }
 
-    function sendMails($emails,$body){
+    function sendMails($emails,$body,$img,$comicName){
         global $SendGrid_API;
         $name = "JanakPatel";
         $subject = "random XKCD comic";
@@ -62,7 +65,8 @@
         $data = array(
             "personalizations" => array(
                 array(
-                    "to" =>$emails //array of emails       
+                    "to" =>array(array("email" => "test@test.com")), //array of emails
+                    "cc" =>$emails       
                 )
             ),
             "from" => array(
@@ -75,7 +79,16 @@
                     "type" => "text/html",
                     "value" => $body
                 )
-            )
+            ),
+            "attachments" => array(
+                array(
+                    "content" => base64_encode($img),
+                    "type" => "image/jpg",
+                    "filename" => "comic-".$comicName,
+                    "disposition" => "attachment",
+                    "content_ID" => "comic-".$comicName,
+                ),
+            ) 
         );
 
         $ch = curl_init();
@@ -89,5 +102,12 @@
         curl_close($ch);
 
         return $response;
+    }
+
+    function giveSendingMails(){
+        global $connect;
+        $query = "SELECT Email from udb where `Is Verified`='1'";
+        $results =  mysqli_query($connect,$query);
+        return $results;
     }
 ?>
