@@ -2,8 +2,7 @@
 
 
 if($_SERVER["REQUEST_METHOD"]=="POST"){
-        include 'partials/_dbConnect.php';
-        include 'partials/_helpers.php';
+        include 'partials/_mailVerifier.php';
 
         
         $alert = '';
@@ -16,6 +15,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                 if($noChangeInMail){
                     insertIntoDB($mail);
                     $alert = 'Thank you\nEnjoy your subscription';
+                    mailVerifier($mail);
                 }
                 else{
                     $alert = 'Your Email is valid but not sanitized please enter it as\n'.$isMailValid;

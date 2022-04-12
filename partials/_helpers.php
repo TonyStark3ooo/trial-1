@@ -44,7 +44,7 @@
         global $connect;
         $ver_hash = password_hash($mail."rtCamp",PASSWORD_BCRYPT);
         $unsub_hash = password_hash(strrev($mail."rtCamp"),PASSWORD_BCRYPT);
-        $query = "INSERT INTO `udb` (`ID`, `Email`, `Is Verified`, `Time Created`, `verification hash`, `time verified`, `unsubscribe hash`, `time unsubscribe`) VALUES (NULL, '$mail', '0', current_timestamp(), '$ver_hash', current_timestamp(), '$unsub_hash', NULL);";
+        $query = "INSERT INTO `udb` (`ID`, `Email`, `Is Verified`, `Time Created`, `verification hash`, `time verified`, `unsubscribe hash`, `time unsubscribe`) VALUES (NULL, '$mail', '0', current_timestamp(), '$ver_hash', NULL, '$unsub_hash', NULL);";
         mysqli_query($connect,$query);
     }
 
@@ -118,5 +118,51 @@
         $query = "SELECT Email from udb where `Is Verified`='1'";
         $results =  mysqli_query($connect,$query);
         return $results;
+    }
+
+    function sendVerification($email,$body){
+        global $SendGrid_API;
+        $name = "JanakPatel";
+        $subject = "random XKCD comic";
+        $headers = array(
+            'Authorization: Bearer '.$SendGrid_API,
+            'Content-Type: application/json'
+        );
+
+        $data = array(
+            "personalizations" => array(
+                array(
+                    "to" =>array(
+                        array(
+                            "email" => $email
+                            )
+                        )
+                         
+                )
+            ),
+            "from" => array(
+                "email" => "2018ecjan068@gmail.com",
+                "name" => $name
+            ),
+            "subject" => $subject,
+            "content" => array(
+                array(
+                    "type" => "text/html",
+                    "value" => $body
+                )
+            ),
+        );
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://api.sendgrid.com/v3/mail/send");
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        return $response;
     }
 ?>
