@@ -2,7 +2,7 @@
 
 
 if($_SERVER["REQUEST_METHOD"]=="POST"){
-        include 'partials/_mailVerifier.php';
+        require 'partials/_mailVerifier.php';
 
         
         $alert = '';

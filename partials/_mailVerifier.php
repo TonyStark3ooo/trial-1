@@ -1,6 +1,6 @@
 <?php
     
-    include 'partials/_helpers.php';
+    require 'partials/_helpers.php';
     
     function mailVerifier($email){
         $body = '

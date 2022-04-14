@@ -1,29 +1,35 @@
 <?php
-    $url = $_SERVER['REQUEST_URI'];
-    $url_components = parse_url($url);
-    parse_str($url_components['query'], $params);
-    $user_email = $params['email'];
-    $user_hash = $params['unsub'];
+    if(isset($_SERVER['REQUEST_URI'])){
+        $url = $_SERVER['REQUEST_URI'];
+        $url_components = parse_url($url);
+        parse_str($url_components['query'], $params);
+        $user_email = $params['email'];
+        $user_hash = $params['unsub'];
 
-    if($_SERVER["REQUEST_METHOD"]=="POST"){
-        include 'partials/_helpers.php';
-        $alert = '';
-        list($noMatchFound,$resuls) = searchMail($user_email);
-        if($noMatchFound){
-            header("Location: Bad.html");
-        }
-        else{
-                if(password_verify(strrev($user_email."rtCamp"),$user_hash)){
-                    $query = "DELETE FROM `udb` WHERE Email='$user_email'";
-                    dbOperation($query);
-                    $alert = "We lost our family member\ncalled`".$user_email."`";
-                    header("Location: ByeBye.html");
-                }
-                else{
+        if(isset($_SERVER["REQUEST_METHOD"])){
+
+            if($_SERVER["REQUEST_METHOD"]=="POST"){
+                include 'partials/_helpers.php';
+                $alert = '';
+                list($noMatchFound,$resuls) = searchMail($user_email);
+                if($noMatchFound){
                     header("Location: Bad.html");
                 }
+                else{
+                        if(password_verify(strrev($user_email."rtCamp"),$user_hash)){
+                            $query = "DELETE FROM `udb` WHERE Email='$user_email'";
+                            dbOperation($query);
+                            $alert = "We lost our family member\ncalled`".$user_email."`";
+                            header("Location: ByeBye.html");
+                        }
+                        else{
+                            header("Location: Bad.html");
+                        }
+                }
+            }
         }
     }
+    
 ?>
 
 <!DOCTYPE html>

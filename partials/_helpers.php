@@ -1,7 +1,7 @@
 <?php
 
-    include '_dbConnect.php';
-    include './private/__API_KEYS.php';
+    require '_dbConnect.php';
+    require './private/__API_KEYS.php';
   
     
     

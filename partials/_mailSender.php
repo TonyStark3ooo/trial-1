@@ -1,7 +1,6 @@
 <?php
     
-    include 'partials/_helpers.php';
-    include './private/__API_KEYS.php';
+    require 'partials/_helpers.php';
     
 
     $results = giveSendingMails();
