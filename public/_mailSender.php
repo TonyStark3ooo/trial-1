@@ -41,6 +41,6 @@
         ';
         
         $img = file_get_contents($response["img"]);
-        echo sendMails($email,$body,$img,$response["safe_title"]);
+        sendMails($email,$body,$img,$response["safe_title"]);
     }
 ?>

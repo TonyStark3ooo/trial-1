@@ -1,39 +1,39 @@
 <?php
 
-
-if($_SERVER["REQUEST_METHOD"]=="POST"){
+if(isset($_SERVER['REQUEST_URI'])){
+    if($_SERVER["REQUEST_METHOD"]=="POST"){
         require '../partials/_mailVerifier.php';
 
-        
+            
         $alert = '';
-        $mail = $_POST["mail_id"];
+        if(isset($_POST['mail_id'])){
+            $mail = $_POST["mail_id"];
 
-        list($noMatchFound,$resuls) = searchMail($mail);
-        if($noMatchFound){
-            list($isMailValid, $noChangeInMail) = mailSanitizer($mail);
-            if($isMailValid){
-                if($noChangeInMail){
-                    insertIntoDB($mail);
-                    $alert = 'Thank you\nEnjoy your subscription';
-                    mailVerifier($mail);
+            list($noMatchFound,$resuls) = searchMail($mail);
+            if($noMatchFound){
+                list($isMailValid, $noChangeInMail) = mailSanitizer($mail);
+                if($isMailValid){
+                    if($noChangeInMail){
+                        insertIntoDB($mail);
+                        $alert = 'Thank you\nEnjoy your subscription';
+                        mailVerifier($mail);
+                    }
+                    else{
+                        $alert = 'Your Email is valid but not sanitized please enter it as\n'.$isMailValid;
+                    }
+                }else{
+                    $alert = "We are failed to validate your Email address\n kindly check it and try again";
                 }
-                else{
-                    $alert = 'Your Email is valid but not sanitized please enter it as\n'.$isMailValid;
-                }
-            }else{
-                $alert = "We are failed to validate your Email address\n kindly check it and try again";
             }
+            else{
+                $row = mysqli_fetch_assoc($resuls);
+                $alert = 'You alredy have subscribed';
+            }
+            showAlert($alert);
         }
-        else{
-            $row = mysqli_fetch_assoc($resuls);
-            // $mailStatus = $row['Is Verified'];
-            $alert = 'You alredy have subscribed';
-        }
-        showAlert($alert);
     }
 
-
-
+}
 ?>
 
 
