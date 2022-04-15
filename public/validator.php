@@ -3,7 +3,7 @@
 
         if($_SERVER["REQUEST_METHOD"]=="GET"){
     
-            require 'partials/_helpers.php';
+            require '../partials/_helpers.php';
     
             if(isset($_SERVER['REQUEST_URI'])){
                 $url = $_SERVER['REQUEST_URI'];

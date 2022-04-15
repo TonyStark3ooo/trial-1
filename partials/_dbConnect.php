@@ -1,8 +1,9 @@
 <?php
-    $server = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "UDB";
+    require '../private/__API_KEYS.php';
+    $server = "remotemysql.com";
+    $username = "DhFCtDuGv7";
+    $password = $mysql_Server_password;
+    $database = "DhFCtDuGv7";
 
     $connect = mysqli_connect($server, $username, $password, $database);
     $status = 4;

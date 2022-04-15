@@ -1,4 +1,7 @@
-@import url(//db.onlinewebfonts.com/c/d0cb04e3ee499a746d538ca81a60eca0?family=sammyfont);
+@font-face {
+    font-family: "sammyfont";
+    src: url("https://janak-patel-rtc-assignment.herokuapp.com/Assets/fonts/sammyFont.woff2") format("woff2");
+}
 *{
     font-family: "sammyfont";
     box-sizing: border-box;

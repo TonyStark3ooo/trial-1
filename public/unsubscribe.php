@@ -9,7 +9,7 @@
         if(isset($_SERVER["REQUEST_METHOD"])){
 
             if($_SERVER["REQUEST_METHOD"]=="POST"){
-                include 'partials/_helpers.php';
+                require '../partials/_helpers.php';
                 $alert = '';
                 list($noMatchFound,$resuls) = searchMail($user_email);
                 if($noMatchFound){
@@ -39,11 +39,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>unsubscribe</title>
-    <link rel="icon" type="image/x-icon" href="Assets/Logos/RTC-logo.png">
+    <link rel="icon" type="image/x-icon" href="./Assets/Logos/RTC-logo.png">
     <link rel="stylesheet" href="StyleSheet.css">
 </head>
 <body>
-    <h1>Its like we are loosing our family member <img class="inline-img" src="assets/Images/sad.png" alt=""></h1>
+    <h1>Its like we are loosing our family member <img class="inline-img" src="./Assets/Images/sad.png" alt=""></h1>
     
     <h4>Please click unsubscribe if u are not here accidently!!!</h2>
     <form action="" method="POST">
