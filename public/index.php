@@ -1,6 +1,6 @@
 <?php
 
-if(isset($_SERVER['REQUEST_URI'])){
+if(isset($_SERVER['REQUEST_METHOD'])){
     if($_SERVER["REQUEST_METHOD"]=="POST"){
         require '../partials/_mailVerifier.php';
 
